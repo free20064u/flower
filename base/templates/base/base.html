@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base/css/bootstrap.css' %}">
+    <link  href="{% static 'base/css/bootstrap.css.map' %}">
+    <link rel="stylesheet" href="{% static 'base/css/site.css' %}">
+    
+    <title>Document</title>
+</head>
+<body class="container">
+    <nav class="navbar navbar-default bg-dark">
+        <ul class="nav">
+            <li class="nav-item text-success"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'create' %}">Create Flower</a></li>
+            
+
+            {% if user.is_authenticated %}
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Hello {{ user }}</a></li>
+
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+        <form action="/" method="GET" class="form-inline mt-2 mt-md-0">
+            <input id="q" name="q" class="form-control mr-sm-2" type="text" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+
+    <main>
+        <div class="starter-template">
+            {% block content %}
+
+            {% endblock content%}
+        </div>
+    </main>
+    <footer class="footer"> <!-- here -->
+        <div class="container"><span class="text-muted">Base project for the <a target="_blank" href="https://leanpub.com/django-the-easy-way">"Django - The Easy Way" </a>book.</span>
+        </div>
+    </footer>
+    <script src="{% static 'base/js/bootstrap.js' %}"></script>
+    <script src="{% static 'base/js/bootstrap.js.map' %}"></script>
+    <script src="{% static 'base/js/jquery.js' %}"></script>
+</body>
+</html>
