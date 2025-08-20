@@ -1,33 +1,47 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-    <h1>About Flowers </h1>
+    <h1>About Flowers</h1>
+
+    {# Container for displaying flowers in a grid layout #}
     <div class="card-columns">
-    
-    {% for flower in flowers %}
-        
-        <div class="card">
-            <div class="card-body">
-                <img class="card-img-top" src="{{ flower.image_thumbnail.url }}">
-                <h5 class="card-title"></h5><a href="{% url 'detail' flower.slug %}">{{ flower.title }}</a></h5>
-                <p class="card-text">{{ flower.description }}</p>
-                <a href="adminmyapp/flower/{{ flower.id }}/change/" class="card-link">{{ flower.category }}</a>
-                <a href="{% url 'edit' pk=flower.pk %}" class="card-link">Edit</a>
-                <a href="{% url 'delete' pk=flower.pk %}"class="card-link">Delete</a>
+        {% for flower in flowers %}
+            {# Individual flower card #}
+            <div class="card">
+                <div class="card-body">
+                    {# Flower image #}
+                    <img class="card-img-top" src="{{ flower.image_thumbnail.url }}" alt="{{ flower.title }}">
+                    {# Flower title with link to detail page #}
+                    <h5 class="card-title">
+                        <a href="{% url 'detail' flower.slug %}">{{ flower.title }}</a>
+                    </h5>
+                    {# Flower description #}
+                    <p class="card-text">{{ flower.description }}</p>
 
-                <hr>
-                {% for tag in flower.tags.all %}
-                    <a href="{% url 'tags' tag.slug %}" class="card-link">{{ tag }}</a>
-                {% endfor %}
+                    {# Container for action links (edit, delete, category) #}
+                    <div class="flower-actions">
+                        {# Link to admin change page #}
+                        <a href="{% url 'admin:myapp_flower_change' object_id=flower.id %}" class="card-link flower-category">{{ flower.category }}</a>
+                        {# Link to edit flower #}
+                        <a href="{% url 'edit' pk=flower.pk %}" class="card-link flower-edit">Edit</a>
+                        {# Link to delete flower #}
+                        <a href="{% url 'delete' pk=flower.pk %}" class="card-link flower-delete">Delete</a>
+                    </div>
 
+                    <hr>
+
+                    {# Container for flower tags #}
+                    <div class="flower-tags">
+                        {% for tag in flower.tags.all %}
+                            {# Link to tag detail page #}
+                            <a href="{% url 'tags' tag.slug %}" class="card-link flower-tag">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-        </div>
-        
-    {% endfor %}
-    <div>
-   
+        {% endfor %}
+
+    </div>
+
     <hr>
-
-   
-
 {% endblock content %}
